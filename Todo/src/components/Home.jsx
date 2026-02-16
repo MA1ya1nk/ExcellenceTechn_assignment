@@ -25,7 +25,32 @@ const Home = () => {
             Explore
           </button>
           </Link> */}
+          
         </div>
+        <section className="mt-20 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        
+        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-2">🔐 Secure Storage</h3>
+          <p className="text-gray-600">
+            Your data is encrypted and protected with industry-level security.
+          </p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-2">⚡ Fast Access</h3>
+          <p className="text-gray-600">
+            Access your saved credentials instantly anytime, anywhere.
+          </p>
+        </div>
+
+        <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
+          <h3 className="text-xl font-semibold mb-2">📱 Multi-Device</h3>
+          <p className="text-gray-600">
+            Works beautifully across mobile, tablet and desktop devices.
+          </p>
+        </div>
+
+      </section>
       </section>
   )
 }
