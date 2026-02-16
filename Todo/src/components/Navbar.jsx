@@ -18,17 +18,7 @@ const Navbar = () => {
 
     <div className="flex items-center">
 
-      <a href="https://github.com/MA1ya1nk/pass_backend">
-        <button className="bg-green-700 mx-2 px-3 py-1 rounded-full flex items-center ring-1 ring-white">
-          <img
-  className="invert w-10 p-1"
-  src="/icons/github.svg"
-  alt="github logo"
-/>
-
-          <span className="font-bold px-2">GitHub</span>
-        </button>
-      </a>
+      
 
       {!user && (
         <Link to="/signin">
