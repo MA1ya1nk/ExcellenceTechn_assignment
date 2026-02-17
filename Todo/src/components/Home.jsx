@@ -23,7 +23,7 @@ const Home = () => {
           
           
         </div>
-        <section className="mt-20 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8">
+        <section className="mt-20 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 pb-30">
         
         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">
           <h3 className="text-xl font-semibold mb-2">🔐 Secure Storage</h3>
