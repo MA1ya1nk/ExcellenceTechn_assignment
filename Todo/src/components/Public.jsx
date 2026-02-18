@@ -8,7 +8,7 @@ const PublicRoute = ({ children }) => {
   if (loading) return <h2>Checking Authentication...</h2>;
 
   if (user) {
-    return <Navigate to="/manager" replace />;
+    return <Navigate to="/todo" replace />;
   }
 
   return children;

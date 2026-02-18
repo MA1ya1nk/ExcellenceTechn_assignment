@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, Register, logout, addTodo, deleteTodo } from "../controllers/user.controller.js";
+import { login, Register, logout, addTodo, deleteTodo, updateUserDetail, updateUserPassword } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router()
@@ -19,5 +19,9 @@ router.route("/me").get(verifyJWT, async (req, res) => {
 })
 router.route("/addTodo").post(verifyJWT, addTodo)
 router.route("/deleteTodo").post(verifyJWT, deleteTodo)
+
+router.route("/updateUserPassword").post(verifyJWT, updateUserPassword)
+router.route("/updateUserDetail").post(verifyJWT, updateUserDetail)
+
 
 export default router

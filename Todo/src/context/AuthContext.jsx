@@ -71,8 +71,27 @@ const delTodo = async (todo) => {
 
 };
 
+    const updateUserPassword = async (password, confirmPassword) => {
+  try {
+    const res = await api.post("/users/updateUserPassword", { password, confirmPassword });
+    setUser(res.data.user);
+  } catch (error) {
+    console.error("Error updating password:", error);
+  }
+};
+
+const updateUserDetail = async (username) => {
+  try {
+    const res = await api.post("/users/updateUserDetail", { username });  
+    setUser(res.data.user);
+  } catch (error) {
+    console.error("Error updating user detail:", error);
+  }
+};
+
+
   return (
-    <AuthContext.Provider value={{ user, setUser, loading, logout, addTodo, delTodo, editingTodo, setEditingTodo }}>
+    <AuthContext.Provider value={{ user, setUser, loading, logout, addTodo, delTodo, editingTodo, setEditingTodo, updateUserPassword, updateUserDetail }}>
       {children}
     </AuthContext.Provider>
   );
