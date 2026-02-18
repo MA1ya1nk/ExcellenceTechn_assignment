@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import api from "../api";
 import { useNavigate } from "react-router-dom";
 import { useContext } from "react";
@@ -9,6 +9,22 @@ const Login = () => {
    const [password, setPassword] = useState("")
    const navigate = useNavigate();
     const { setUser } = useContext(AuthContext);
+    const ref = useRef()
+    const passwordRef = useRef();
+
+   const showPassword = () => {
+       
+    passwordRef.current.type = "text";
+    console.log(ref.current.src);
+    if (ref.current.src.includes("eye.png")) {
+      ref.current.src = "eyecross.png";
+      passwordRef.current.type = "password";
+    } else {
+      passwordRef.current.type = "text";
+      ref.current.src = "eye.png";
+    
+  };
+    }
 
    const handleSubmit = async(e) => {
         e.preventDefault();
@@ -55,7 +71,7 @@ const Login = () => {
         
         <div className="relative w-full">
               <input
-                
+                ref={passwordRef}
                 type="password"
                 placeholder="Password"
                 value={password}
@@ -63,7 +79,20 @@ const Login = () => {
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               />
 
+<span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={showPassword}
+              >
+                <img
+                  ref={ref}
+                  className="p-1"
+                  width={26}
+                  src="eyecross.png"
+                  alt="eye"
+                />
+              </span>
             </div>
+           
 
 
         <button

@@ -9,16 +9,21 @@ import Login from './components/Login.jsx'
 import Todo from './components/Todo.jsx'
 import { AuthProvider } from './context/AuthContext.jsx'
 import ProtectedRoute from './components/ProtectedRoute.jsx'
+import PublicRoute from './components/Public.jsx'
+import Dashboard from './components/Dashboard.jsx'
 
 const router = createBrowserRouter(
   createRoutesFromElements(
     <Route path='/' element={<App/>}>
       <Route path='' element={<Home />}/>
-      <Route path='signin' element={<SignIn />}/>
-      <Route path='login' element={<Login />}/>
+      <Route path='signin' element={<PublicRoute><SignIn /></PublicRoute>}/>
+      <Route path='login' element={<PublicRoute><Login /></PublicRoute>}/>
       <Route path='todo' element={<ProtectedRoute>
             <Todo />
           </ProtectedRoute>}/>
+      <Route path='dashboard' element={<ProtectedRoute>
+            <Dashboard />
+          </ProtectedRoute>}/>    
     </Route>
   )
 )

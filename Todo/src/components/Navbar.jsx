@@ -36,6 +36,15 @@ const Navbar = () => {
           🔐 Sign Out
         </button>
       )}
+      {user && (
+        <Link to="/dashboard">
+        <button
+          className="bg-green-700 mx-2 px-3 py-1 rounded-full ring-1 ring-white"
+        >
+           Dashboard
+        </button>
+        </Link>
+      )}
 
     </div>
   </div>

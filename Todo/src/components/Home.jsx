@@ -1,7 +1,10 @@
 import React from 'react'
 import { Link } from 'react-router-dom';
+import { useContext } from 'react';
+import { AuthContext } from '../context/AuthContext';
 
 const Home = () => {
+  const { user } = useContext(AuthContext);
   return (
     <section className="flex flex-col items-center text-center mt-20 px-4">
         <h2 className="text-4xl font-bold mb-4">
@@ -14,15 +17,21 @@ const Home = () => {
         </p>
 
         <div className="flex gap-4">
-            <Link to="signin">
+            <Link to="/signin">
           <button className="px-6 py-3 bg-green-500 text-white rounded-lg hover:bg-green-600">
             Get Started
           </button>
           </Link>
  
-          
-          
+          {user && (
+            <Link to="/todo">
+              <button className="px-6 py-3 border rounded-lg hover:bg-gray-100">
+                Your Todos
+              </button>
+            </Link>
+          )}
         </div>
+        
         <section className="mt-20 max-w-6xl mx-auto px-6 grid md:grid-cols-3 gap-8 pb-30">
         
         <div className="bg-white p-6 rounded-xl shadow hover:shadow-lg transition">

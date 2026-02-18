@@ -1,4 +1,4 @@
-import React, {useState} from 'react'
+import React, {useState, useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api'
 
@@ -7,15 +7,28 @@ const SignIn = () => {
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
     const navigate = useNavigate();
+    const ref = useRef()
+    const passwordRef = useRef();
+
+    const showPassword = () => {
+       
+    passwordRef.current.type = "text";
+    console.log(ref.current.src);
+    if (ref.current.src.includes("eye.png")) {
+      ref.current.src = "eyecross.png";
+      passwordRef.current.type = "password";
+    } else {
+      passwordRef.current.type = "text";
+      ref.current.src = "eye.png";
+    
+  };
+    }
 
     const handleSubmit = async(e) => {
         e.preventDefault();
         // Handle form submission logic here
         try {
-            const formData = new FormData();
-            formData.append('email', email);
-            formData.append('username', username);
-            formData.append('password', password);
+            
              const response = await api.post("/users/register", {
                   email,
                   password,
@@ -56,13 +69,29 @@ const SignIn = () => {
 
         <div className="relative w-full">
               <input
-                
+                ref={passwordRef}
                 type="password"
                 placeholder="Password"
                 value={password}
                 onChange={(e) => setPassword(e.target.value)}
                 className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+               
+                
+              
               />
+              <span
+                className="absolute right-3 top-1/2 -translate-y-1/2 cursor-pointer"
+                onClick={showPassword}
+              >
+                <img
+                  ref={ref}
+                  className="p-1"
+                  width={26}
+                  src="eyecross.png"
+                  alt="eye"
+                />
+              </span>
+              
 
             </div>
 
