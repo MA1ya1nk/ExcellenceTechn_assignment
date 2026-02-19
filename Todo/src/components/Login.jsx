@@ -123,7 +123,7 @@ const Login = () => {
               Welcome Back
             </h1>
             <p style={{ color: "rgba(255,255,255,0.35)", fontSize: 13 }}>
-              Sign in to continue to your account
+              log in to continue to your account
             </p>
           </div>
 
