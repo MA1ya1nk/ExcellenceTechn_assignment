@@ -1,1 +1,107 @@
 @import "tailwindcss";
+
+
+
+  @keyframes drift1 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(80px, 60px) scale(1.2); }
+  }
+  @keyframes drift2 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(-60px, -80px) scale(1.15); }
+  }
+  @keyframes drift3 {
+    0%   { transform: translate(0, 0) scale(1); }
+    100% { transform: translate(50px, -70px) scale(1.1); }
+  }
+
+  .animated-bg {
+    background: #0a1628;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .orb {
+    position: absolute;
+    border-radius: 50%;
+    filter: blur(80px);
+    opacity: 0.5;
+    pointer-events: none;
+  }
+
+  .orb-1 {
+    width: 500px; height: 500px;
+    background: radial-gradient(circle, #00d296, transparent 70%);
+    top: -150px; left: -150px;
+    animation: drift1 10s ease-in-out infinite alternate;
+  }
+
+  .orb-2 {
+    width: 450px; height: 450px;
+    background: radial-gradient(circle, #0066ff, transparent 70%);
+    bottom: -100px; right: -100px;
+    animation: drift2 13s ease-in-out infinite alternate;
+  }
+
+  .orb-3 {
+    width: 350px; height: 350px;
+    background: radial-gradient(circle, #7c3aed, transparent 70%);
+    top: 40%; left: 40%;
+    animation: drift3 9s ease-in-out infinite alternate;
+  }
+
+  .btn {
+          width: 100%;
+          padding: 13px;
+          background: linear-gradient(135deg, #00d296 0%, #00a8ff 100%);
+          color: #071014;
+          font-weight: 700;
+          font-size: 15px;
+          border: none;
+          border-radius: 12px;
+          cursor: pointer;
+          transition: all 0.25s cubic-bezier(0.16, 1, 0.3, 1);
+          position: relative;
+          overflow: hidden;
+          letter-spacing: 0.3px;
+          margin-top: 8px;
+        }
+        .btn::after {
+          content: '';
+          position: absolute; inset: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.15) 0%, transparent 60%);
+        }
+        .btn:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 8px 32px rgba(0,210,150,0.45);
+        }
+        .btn:active { transform: translateY(0); }
+        .field-label {
+          display: block;
+          font-size: 11px;
+          font-weight: 600;
+          letter-spacing: 1.2px;
+          text-transform: uppercase;
+          color: rgba(255,255,255,0.4);
+          margin-bottom: 8px;
+        }
+.orb {
+          position: fixed;
+          border-radius: 50%;
+          filter: blur(80px);
+          opacity: 0.45;
+          pointer-events: none;
+          z-index: 0;
+        }
+        .orb-1 {
+          width: 500px; height: 500px;
+          background: radial-gradient(circle, #00d296, transparent 70%);
+          top: -150px; left: -150px;
+          animation: drift1 11s ease-in-out infinite alternate;
+        }
+        .orb-2 {
+          width: 450px; height: 450px;
+          background: radial-gradient(circle, #0066ff, transparent 70%);
+          bottom: -100px; right: -100px;
+          animation: drift2 14s ease-in-out infinite alternate;
+        }

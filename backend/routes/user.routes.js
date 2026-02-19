@@ -24,4 +24,5 @@ router.route("/updateUserPassword").post(verifyJWT, updateUserPassword)
 router.route("/updateUserDetail").post(verifyJWT, updateUserDetail)
 
 
+
 export default router

@@ -57,8 +57,12 @@ const Dashboard = () => {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="w-[450px] h-auto bg-white border-2 border-gray-300 rounded-xl shadow-lg">
+    <div className="bg-gradient-to-br from-emerald-900 via-teal-800 to-slate-900 min-h-screen flex items-center justify-center"
+    style={{ background: "#0a1628" }}>
+        <div className="orb orb-1" />
+        <div className="orb orb-2" />
+  
+      <div className="w-[460px] backdrop-blur-xl bg-white/80 border border-white/30 rounded-2xl shadow-2xl hover:shadow-green-200/40 transition-all duration-300">
         
         <div className="text-center text-3xl py-6 font-semibold border-b">
           Update Your Profile
@@ -76,7 +80,7 @@ const Dashboard = () => {
                 type="email"
                 value={user?.email || ""}
                 readOnly
-                className="w-full p-3 border border-gray-300 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
+                className="w-full p-3 border border-green-500 rounded-lg bg-gray-100 text-gray-600 cursor-not-allowed"
               />
             </div>
 
@@ -88,7 +92,7 @@ const Dashboard = () => {
               <select
                 value={updateType}
                 onChange={(e) => setUpdateType(e.target.value)}
-                className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
               >
                 <option value="">Select an option</option>
                 <option value="username">Update Username</option>
@@ -107,7 +111,7 @@ const Dashboard = () => {
                   placeholder="Enter new username"
                   value={username}
                   onChange={(e) => setUsername(e.target.value)}
-                  className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                  className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                   required
                 />
               </div>
@@ -126,7 +130,7 @@ const Dashboard = () => {
                     placeholder="Enter new password"
                     value={password}
                     onChange={(e) => setPassword(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
                   <span
@@ -153,7 +157,7 @@ const Dashboard = () => {
                     placeholder="Confirm new password"
                     value={confirmPassword}
                     onChange={(e) => setConfirmPassword(e.target.value)}
-                    className="w-full p-3 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
+                    className="w-full p-3 border border-green-500 rounded-lg focus:outline-none focus:ring-2 focus:ring-green-500"
                     required
                   />
                   <span
@@ -175,10 +179,10 @@ const Dashboard = () => {
             <button
               type="submit"
               disabled={!updateType}
-              className={`p-3 rounded-lg text-white font-semibold transition ${
+              className={`btn p-3 rounded-lg text-white font-semibold transition ${
                 updateType
                   ? "bg-green-500 hover:bg-green-600"
-                  : "bg-green-200 cursor-not-allowed"
+                  : "bg-green-300 cursor-not-allowed"
               }`}
             >
               Update Profile
