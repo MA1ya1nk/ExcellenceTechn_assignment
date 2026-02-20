@@ -28,11 +28,13 @@ const userSchema = Schema(
     default: "user",
   },
     todos: [
-      {
-        type: String,
-        
-      },
-    ],
+    {
+        id: { type: String, required: true },
+        title: { type: String, required: true },
+        description: { type: String, required: true },
+        priority: { type: String, enum: ["low", "medium", "high"], required: true },
+    }
+],
     refreshToken: {
       type: String,
     },

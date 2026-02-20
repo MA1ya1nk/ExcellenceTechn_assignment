@@ -8,191 +8,146 @@ const generateAccessAndRefreshToken = async (userId) => {
     const user = await User.findById(userId)
     const accessToken = user.generateAccessToken()
     const refreshToken = user.generateRefreshToken()
-
-   
     user.refreshToken = refreshToken
     await user.save({validateBeforeSave: false}) 
     return {accessToken, refreshToken}
-
   } catch (error){
     throw new ApiError(500, "something went wrong while generating refresh and access token")
   }
 }
+
 const Register = asyncHandler(async(req, res) => {
-   
    const {email, username, password} = req.body
    if(!email || !username || !password) throw new ApiError(400, "All fields are required")
-
    const existedUser = await User.findOne({
-    $or: [{username}, {email}]  // return if any, among username or email exist
+    $or: [{username}, {email}]
    })
    if(existedUser) 
     res.status(400).json({
         success: false,
         message: "User already exists"
     })
-
-    
-
-    const user = await User.create({
-        username,
-        email,
-        password,
-        
-    })
-
+    const user = await User.create({ username, email, password })
     const createdUser = await User.findById(user._id).select("-password -refreshToken")
-
-    return res.status(201)
-    .json(new ApiResponse(201, createdUser, "User registered successfuly"))
-    
+    return res.status(201).json(new ApiResponse(201, createdUser, "User registered successfuly"))
 })
 
 const login = asyncHandler(async(req, res) => {
-
- 
     const {email, password} = req.body
     console.log(email)
-
     if(!email) throw new ApiError(400, "email is required")
-
-    const user = await User.findOne({
-        email
-    }) 
-    
+    const user = await User.findOne({ email }) 
     if(!user) throw new ApiError(400, "User does not exist")
-
     const isPasswordValid = await user.isPasswordCorrect(password)  
     if(!isPasswordValid) throw new ApiError(400, "password is incorrect")
-
-      
-      const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)  // refresh token is update here so user does not have refresh token
-
-      // same user is access with new refresh token 
-      const loggedInuser = await User.findById(user._id).select("-password -refreshToken")
-      
-      // sending these tokens into cookies
-      const options = {
-   httpOnly: true,
-   secure: true, // Only secure in production
-   sameSite: "none" // "none" for production, "lax" for dev
-}
-
-      return res
-      .status(200)
+    const {accessToken, refreshToken} = await generateAccessAndRefreshToken(user._id)
+    const loggedInuser = await User.findById(user._id).select("-password -refreshToken")
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
+    }
+    return res.status(200)
       .cookie("accessToken", accessToken, options)
       .cookie("refreshToken", refreshToken, options)
-      .json(
-        new ApiResponse(
-          200,
-          {
-            user: loggedInuser, accessToken,
-            refreshToken
-          },
-          "User logged in succesfully"
-        )
-      )
+      .json(new ApiResponse(200, { user: loggedInuser, accessToken, refreshToken }, "User logged in succesfully"))
 })
 
-const logout = asyncHandler( async(req, res) => {
-   
-     await User.findByIdAndUpdate(
+const logout = asyncHandler(async(req, res) => {
+    await User.findByIdAndUpdate(
         req.user?._id,  
-        {
-          $unset: {  // update by this
-            refreshToken: 1
-          }
-        },{
-          new: true
-        }
-     )
-     
-     const options = {
-   httpOnly: true,
-   secure: true, // Only secure in production
-   sameSite: "none"
-
-   
-}
-
-     return res.status(200)
-     .clearCookie("accessToken", options)
-     .clearCookie("refreshToken", options)
-     .json(new ApiResponse(200, {}, "User logged out"))
-})
-
-const addTodo = asyncHandler( async(req, res) => {
-    const {todo} = req.body
-    if(!todo) throw new ApiError(400, "Add data in Todo")
-
-    const update = await User.updateOne(
-  { _id: req.user._id },
-  {
-    $push: {
-      todos: todo
-      
+        { $unset: { refreshToken: 1 } },
+        { new: true }
+    )
+    const options = {
+        httpOnly: true,
+        secure: true,
+        sameSite: "none"
     }
-  }
-)
-    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken")
-          
-
-    return res.status(200).json(new ApiResponse(200, updatedUser, "Todo added sucessfully"))
+    return res.status(200)
+        .clearCookie("accessToken", options)
+        .clearCookie("refreshToken", options)
+        .json(new ApiResponse(200, {}, "User logged out"))
 })
 
-const deleteTodo = asyncHandler( async(req, res) => {
-    const { todo } = req.body;
+// ✅ UPDATED
+const addTodo = asyncHandler(async (req, res) => {
+    const { id, title, description, priority } = req.body;
 
-    if (!todo) {
-      throw new ApiError(400, "All fields are required");
+    if (!id || !title || !description || !priority) {
+        throw new ApiError(400, "All fields are required");
     }
 
     await User.updateOne(
-  { _id: req.user._id },
-  {
-    $pull: { todos: todo }
-  }
-);
+        { _id: req.user._id },
+        { $push: { todos: { id, title, description, priority } } }
+    );
 
-    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken")
+    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken");
 
-    return res.status(200).json(new ApiResponse(200, updatedUser, "Todos added successfully"))
+    return res.status(200).json(new ApiResponse(200, updatedUser, "Todo added successfully"));
 });
 
-const updateUserPassword = asyncHandler( async(req,res) => {
+// ✅ UPDATED
+const deleteTodo = asyncHandler(async (req, res) => {
+    const { id } = req.body;
+
+    if (!id) {
+        throw new ApiError(400, "Todo id is required");
+    }
+
+    await User.updateOne(
+        { _id: req.user._id },
+        { $pull: { todos: { id } } }
+    );
+
+    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken");
+
+    return res.status(200).json(new ApiResponse(200, updatedUser, "Todo deleted successfully"));
+});
+
+// ✅ UPDATED
+const editTodo = asyncHandler(async (req, res) => {
+    const { id, title, description, priority } = req.body;
+
+    if (!id || !title || !description || !priority) {
+        throw new ApiError(400, "All fields are required");
+    }
+
+    await User.updateOne(
+        { _id: req.user._id, "todos.id": id },
+        {
+            $set: {
+                "todos.$.title": title,
+                "todos.$.description": description,
+                "todos.$.priority": priority,
+            }
+        }
+    );
+
+    const updatedUser = await User.findById(req.user._id).select("-password -refreshToken");
+
+    return res.status(200).json(new ApiResponse(200, updatedUser, "Todo updated successfully"));
+});
+
+const updateUserPassword = asyncHandler(async(req,res) => {
    const {password, confirmPassword} = req.body
-
-  
-
    const userFromDB = await User.findById(req.user?._id)
    const passwordCorrect = await userFromDB.isPasswordCorrect(password)
-
    if(!passwordCorrect) throw new ApiError(400, "Password is incorrect")
-
-    userFromDB.password = confirmPassword
-    await userFromDB.save({validateBeforeSave: false})
-
-    return res.status(200)
-    .json(new ApiResponse(200, {}, "Password changed"))
+   userFromDB.password = confirmPassword
+   await userFromDB.save({validateBeforeSave: false})
+   return res.status(200).json(new ApiResponse(200, {}, "Password changed"))
 })
 
-const updateUserDetail = asyncHandler( async(req, res) => {
+const updateUserDetail = asyncHandler(async(req, res) => {
   const {username} = req.body
-
   const user = await User.findByIdAndUpdate(
      req.user?._id,
-     {
-         $set: {
-                username
-            }
-     },
-     {new: true}
+     { $set: { username } },
+     { new: true }
   ).select("-password")
-
-  return res
-  .status(200)
-  .json(new ApiResponse(200, user, "Details updated sucessfully"))
+  return res.status(200).json(new ApiResponse(200, user, "Details updated sucessfully"))
 })
 
-
-export { Register, login, logout, addTodo, deleteTodo, updateUserPassword, updateUserDetail };
+export { Register, login, logout, addTodo, deleteTodo, updateUserPassword, updateUserDetail, editTodo };

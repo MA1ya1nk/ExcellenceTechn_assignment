@@ -160,7 +160,7 @@ const Home = () => {
 
           {/* BUTTONS — ✅ Link + user check untouched */}
           <div className="flex gap-5 mb-16">
-            <Link to="/signin">
+            <Link to="/signup">
               <button className="home-btn-primary">
                 Get Started
               </button>

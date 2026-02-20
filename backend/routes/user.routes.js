@@ -1,5 +1,5 @@
 import { Router } from "express";
-import { login, Register, logout, addTodo, deleteTodo, updateUserDetail, updateUserPassword } from "../controllers/user.controller.js";
+import { login, Register, logout, addTodo, deleteTodo, updateUserDetail, updateUserPassword, editTodo } from "../controllers/user.controller.js";
 import { verifyJWT } from "../middlewares/auth.middlewares.js";
 
 const router = Router()
@@ -22,6 +22,7 @@ router.route("/deleteTodo").post(verifyJWT, deleteTodo)
 
 router.route("/updateUserPassword").post(verifyJWT, updateUserPassword)
 router.route("/updateUserDetail").post(verifyJWT, updateUserDetail)
+router.route("/editTodo").post(verifyJWT, editTodo)
 
 
 

@@ -2,7 +2,7 @@ import React, {useState, useRef} from 'react'
 import { Link, useNavigate } from 'react-router-dom'
 import api from '../api'
 
-const SignIn = () => {
+const SignUp = () => {
     const [email, setEmail] = useState("")
     const [password, setPassword] = useState("")
     const [username, setUsername] = useState("")
@@ -263,4 +263,4 @@ const SignIn = () => {
     )
 }
 
-export default SignIn
+export default SignUp
